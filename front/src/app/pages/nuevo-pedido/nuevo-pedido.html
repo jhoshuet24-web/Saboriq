@@ -1,0 +1,31 @@
+<div class="pagina">
+  <h1>Finalizar Pedido</h1>
+  <div class="dos-columnas">
+    <section class="panel">
+      <h2>Productos</h2>
+      @for (item of pedidoService.carrito(); track item.producto.id) {
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span>{{ item.cantidad }}x {{ item.producto.nombre }}</span>
+          <span>S/ {{ (item.producto.precio * item.cantidad).toFixed(2) }}</span>
+        </div>
+      }
+      <hr>
+      <h3>Subtotal: S/ {{ subtotal().toFixed(2) }}</h3>
+    </section>
+    <section class="panel">
+      <h2>Datos de Envío</h2>
+      <form [formGroup]="form" (ngSubmit)="confirmar()">
+        <div class="grupo">
+          <label>Dirección</label>
+          <input formControlName="direccionEntrega">
+        </div>
+        <div class="grupo">
+          <label>Distrito</label>
+          <input formControlName="distritoEntrega">
+        </div>
+        @if (error()) { <div class="alerta error">{{ error() }}</div> }
+        <button type="submit" class="primario">Confirmar Pedido</button>
+      </form>
+    </section>
+  </div>
+</div>

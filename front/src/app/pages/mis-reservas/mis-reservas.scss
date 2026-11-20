@@ -1,0 +1,76 @@
+.lista-reservas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.tarjeta-reserva {
+  background: white;
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(31, 41, 55, 0.06);
+  color: var(--texto);
+  .detalles strong { color: var(--primario); }
+  .pagada { color: #149c48; font-weight: 700; }
+
+  .cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+
+    h3 { margin: 0; font-size: 1.1rem; }
+    .marca { margin: 2px 0 0; color: var(--primario); font-size: 0.85rem; font-weight: 600; }
+  }
+
+  .detalles {
+    p { margin: 4px 0; font-size: 0.9rem; }
+    .urgente { color: var(--error); font-weight: bold; }
+  }
+
+  .acciones {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+
+    button, a {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font: inherit;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+
+      &.primario { background: var(--primario); color: white; border: 1px solid var(--primario); }
+      &.peligro { background: white; color: var(--error); border: 1px solid #f0b4b4; }
+    }
+  }
+}
+
+.estado {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  &.confirmada { background: #dcfce7; color: #149c48; }
+  &.pendiente { background: #fef3c7; color: #ae5b28; }
+  &.cancelada { background: #f3f4f6; color: #656565; }
+  &.expirada { background: #fee2e2; color: #7e0101; }
+  &.completada { background: #dbeafe; color: #123abc; }
+  &.no-show { background: #fce7f3; color: #ad0d4d; }
+}
+
+@media (max-width: 480px) {
+  .tarjeta-reserva .cabecera {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tarjeta-reserva .acciones {
+    flex-direction: column;
+  }
+}

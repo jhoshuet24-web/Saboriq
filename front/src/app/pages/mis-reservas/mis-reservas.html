@@ -1,0 +1,46 @@
+<div class="pagina">
+  <div class="pagina-titulo">
+    <h1>Mis reservas</h1>
+  </div>
+    @if (error()) { <app-alerta tipo="error">{{ error() }}</app-alerta> }
+  @if (mensaje()) { <app-alerta tipo="ok">{{ mensaje() }}</app-alerta> }
+  @if (reservas().length === 0) {
+  <div class="panel">
+    <p>No tienes reservas registradas aún.</p>
+  </div>
+  }
+  <div class="lista-reservas">
+    @for (r of reservas(); track r.id) {
+    <div class="tarjeta-reserva">
+      <div class="cabecera">
+        <div>
+          <h3>{{ r.localNombre }}</h3>
+          <p class="marca">{{ r.marcaNombre }}</p>
+        </div>
+        <app-badge-estado [estado]="r.estado" />
+      </div>
+      <div class="detalles">
+        <p><strong>Fecha y hora:</strong> {{ r.fechaHora | date:'dd/MM/yyyy HH:mm' }}</p>
+        <p><strong>Personas:</strong> {{ r.personas }}</p>
+        @if (r.requiereGarantia) {
+        <p><strong>Garantía:</strong> S/ {{ r.montoGarantia.toFixed(2) }}</p>
+        }
+        @if (r.expiraEn && r.estado === 'PENDIENTE_PAGO') {
+        <p class="urgente"><strong>Expira:</strong> {{ r.expiraEn | date:'HH:mm:ss' }}</p>
+        }
+        @if (r.estado === 'CONFIRMADA' && r.requiereGarantia) {
+        <p class="pagada">✓ Garantía pagada. Reserva confirmada</p>
+        }
+      </div>
+      <div class="acciones">
+        @if (r.estado === 'PENDIENTE_PAGO') {
+        <a class="primario" [routerLink]="['/pagar-reserva', r.id]">Pagar garantía</a>
+        }
+        @if (r.estado === 'PENDIENTE_PAGO' || r.estado === 'CONFIRMADA') {
+        <button class="peligro" (click)="cancelar(r.id)">Cancelar</button>
+        }
+      </div>
+    </div>
+    }
+  </div>
+</div>

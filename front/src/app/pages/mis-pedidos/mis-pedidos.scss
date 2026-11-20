@@ -1,0 +1,66 @@
+.pagina { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+h1 { margin-bottom: 1.2rem; }
+
+.lista { display: grid; gap: 16px; }
+
+.tarjeta {
+  background: var(--tarjeta);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.cabecera {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 14px;
+  h3 { margin: 0; color: var(--primario); }
+  .sub { color: var(--suave); font-size: 0.85rem; }
+}
+
+.estado {
+  background: #fef3c7; color: #ae5b28;
+  padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
+  &.cancelado { background: #fee2e2; color: #7e0101; }
+}
+
+.pasos {
+  list-style: none; display: flex; gap: 6px; padding: 0; margin: 0 0 14px;
+  li {
+    flex: 1; text-align: center; font-size: 0.7rem; padding: 6px 2px;
+    background: #f0e9dc; color: var(--suave); border-radius: 6px;
+    &.hecho { background: #dcfce7; color: #149c48; }
+    &.actual { font-weight: 700; outline: 2px solid #149c48; }
+  }
+}
+
+.items {
+  list-style: none; padding: 0; margin: 0 0 10px;
+  li { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed var(--borde); }
+  span { color: var(--suave); }
+}
+
+.dir { font-size: 0.9rem; margin: 2px 0; strong { color: var(--primario); } }
+
+.pie {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px; margin-top: 14px;
+}
+.total { font-size: 1.2rem; font-weight: 700; color: var(--primario); }
+.pagado { color: #149c48; font-weight: 700; }
+
+.pago {
+  display: flex; gap: 8px;
+  select { width: auto; }
+  button {
+    background: var(--primario); color: #fff; border: none; border-radius: 8px;
+    padding: 0.6rem 1.2rem; font-weight: 700; cursor: pointer;
+    &:hover { background: var(--fondo); }
+  }
+}
+
+@media (max-width: 520px) {
+  .pasos li { font-size: 0.6rem; }
+  .pago { width: 100%; }
+}

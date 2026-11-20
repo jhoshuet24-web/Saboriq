@@ -1,0 +1,38 @@
+<header class="header" [class.abierto]="menuAbierto()">
+  <div class="header-container">
+    <a routerLink="/" class="brand">SaborIQ</a>
+    <button class="menu-toggle" (click)="alternarMenu()">☰</button>
+
+    <nav aria-label="Menú principal" (click)="cerrarMenu()">
+      <ul class="nav-menu">
+        <li><a routerLink="/productos" routerLinkActive="active">Productos</a></li>
+        <li><a routerLink="/locales" routerLinkActive="active">Locales</a></li>
+
+        @if (auth.isAdmin()) {
+          <li><a routerLink="/admin" routerLinkActive="active">Admin</a></li>
+        }
+        @if (auth.isStaff()) {
+          <li><a routerLink="/staff" routerLinkActive="active">Mi Local</a></li>
+        }
+        @if (auth.isLoggedIn() && !auth.isAdmin() && !auth.isStaff()) {
+          <li><a routerLink="/reservar" routerLinkActive="active">Reservar</a></li>
+          <li><a routerLink="/mis-reservas" routerLinkActive="active">Mis Reservas</a></li>
+          <li><a routerLink="/pedidos/mis-pedidos" routerLinkActive="active">Pedidos</a></li>
+        }
+      </ul>
+    </nav>
+
+    <div class="auth-actions" (click)="cerrarMenu()">
+      @if (auth.isLoggedIn()) {
+        <button class="btn-outline" (click)="cerrarSesion()">Cerrar Sesión</button>
+      } @else {
+        <a routerLink="/login" class="btn-outline">Ingresar</a>
+        <a routerLink="/registro" class="btn-solid">Registro</a>
+      }
+    </div>
+  </div>
+</header>
+
+<main class="main-layout">
+  <router-outlet />
+</main>

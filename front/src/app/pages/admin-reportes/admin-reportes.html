@@ -1,0 +1,51 @@
+<div class="pagina">
+  <div class="pagina-titulo">
+    <h1>Reportes Consolidados</h1>
+  </div>
+
+  @if (error()) { <div class="alerta error">{{ error() }}</div> }
+
+  @if (cargando()) {
+    <p style="color: white;">Cargando reportes...</p>
+  } @else {
+    <div class="resumen-tarjetas">
+      <div class="tarjeta-resumen">
+        <h3>Ingresos por Garantías</h3>
+        <p class="numero">S/ {{ totalIngresos().toFixed(2) }}</p>
+      </div>
+      <div class="tarjeta-resumen">
+        <h3>Total de Reservas</h3>
+        <p class="numero">{{ totalReservas() }}</p>
+      </div>
+    </div>
+
+    <section class="panel" style="margin-top: 24px;">
+      <h2>Desglose por Marca</h2>
+      <div class="tabla-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Marca</th><th>Total Reservas</th><th>Completadas</th><th>No Show</th><th>Ingresos (Garantías)</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of reportes(); track r.marcaNombre) {
+              <tr>
+                <td><strong>{{ r.marcaNombre }}</strong></td>
+                <td>{{ r.totalReservas }}</td>
+                <td><span class="etiqueta si">{{ r.reservasCompletadas }}</span></td>
+                <td><span class="etiqueta no">{{ r.reservasNoShow }}</span></td>
+                <td class="precio">S/ {{ r.ingresosGarantias.toFixed(2) }}</td>
+              </tr>
+            }
+            @if (reportes().length === 0) {
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 20px;">No hay datos registrados todavía.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+</div>

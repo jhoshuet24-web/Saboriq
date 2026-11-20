@@ -1,0 +1,37 @@
+<div class="pagina">
+  <header class="pagina-titulo">
+    <h1>Nuestros Locales</h1>
+  </header>
+
+  <div class="panel" style="margin-bottom: 2rem;">
+    <div class="form-control" style="max-width: 300px;">
+      <label for="marca">Filtrar por Marca</label>
+      <select id="marca" (change)="cargar($any($event.target).value)">
+        <option value="todas">Todas las marcas</option>
+        @for (m of marcas(); track m.id) {
+          <option [value]="m.id">{{ m.nombre }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  @if (error()) { <div class="alerta error">{{ error() }}</div> }
+
+  <section class="grid-locales">
+    @for (l of locales(); track l.id) {
+      <article class="local-card">
+        <header>
+          <span class="marca">{{ l.marcaNombre }}</span>
+          <h3>{{ l.nombre }}</h3>
+        </header>
+        <div class="contenido">
+          <p><strong>Dirección:</strong> {{ l.direccion }}, {{ l.distrito }} - {{ l.ciudad }}</p>
+          @if (l.telefono) { <p><strong>Teléfono:</strong> {{ l.telefono }}</p> }
+          <p><strong>Aforo:</strong> {{ l.aforo }} personas</p>
+          <p><strong>Pedido mínimo:</strong> S/ {{ l.pedidoMinimo.toFixed(2) }}</p>
+          <p><strong>Costo de envío:</strong> S/ {{ l.costoEnvio.toFixed(2) }}</p>
+        </div>
+      </article>
+    }
+  </section>
+</div>

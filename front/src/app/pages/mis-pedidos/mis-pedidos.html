@@ -1,0 +1,62 @@
+<div class="pagina">
+  <h1>Mis pedidos</h1>
+  @if (error()) { <div class="alerta error">{{ error() }}</div> }
+  @if (mensaje()) { <div class="alerta ok">{{ mensaje() }}</div> }
+  @if (pedidos().length === 0 && !error()) {
+    <div class="tarjeta"><p>Aún no tienes pedidos.</p></div>
+  }
+
+  <div class="lista">
+    @for (p of pedidos(); track p.id) {
+      <div class="tarjeta">
+        <div class="cabecera">
+          <div>
+            <h3>{{ p.localNombre }}</h3>
+            <p class="sub">Pedido #{{ p.id }}</p>
+          </div>
+          <span class="estado" [class.cancelado]="p.estado === 'CANCELADO'">
+            {{ p.estado === 'CANCELADO' ? 'Cancelado' : etiqueta(p.estado) }}
+          </span>
+        </div>
+
+        @if (p.estado !== 'CANCELADO') {
+          <ol class="pasos">
+            @for (paso of pasos; track paso; let i = $index) {
+              <li [class.hecho]="i <= indicePaso(p.estado)" [class.actual]="i === indicePaso(p.estado)">
+                {{ etiqueta(paso) }}
+              </li>
+            }
+          </ol>
+        }
+
+        <ul class="items">
+          @for (d of p.detalles; track d.productoNombre) {
+            <li>{{ d.cantidad }}x {{ d.productoNombre }} <span>S/ {{ d.precioUnitario.toFixed(2) }}</span></li>
+          }
+        </ul>
+
+        <p class="dir"><strong>Entrega:</strong> {{ p.direccionEntrega }}, {{ p.distritoEntrega }}</p>
+        @if (p.repartidorNombre) {
+          <p class="dir"><strong>Repartidor:</strong> {{ p.repartidorNombre }}</p>
+        }
+
+        <div class="pie">
+          <p class="total">Total: S/ {{ p.total.toFixed(2) }}</p>
+
+          @if (p.estado === 'PENDIENTE') {
+            <div class="pago">
+              <select #metodo>
+                <option value="YAPE">Yape</option>
+                <option value="PLIN">Plin</option>
+                <option value="TARJETA">Tarjeta</option>
+              </select>
+              <button type="button" (click)="pagar(p.id, metodo.value)">Pagar pedido</button>
+            </div>
+          } @else if (p.estado !== 'CANCELADO') {
+            <p class="pagado">✓ Pago aprobado</p>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="pagina">
+  <div class="pagina-titulo">
+    <h1>Repartidores</h1>
+  </div>
+
+  <div class="dos-columnas">
+    <section class="panel">
+      <h2>{{ editandoId() ? 'Editar repartidor' : 'Nuevo repartidor' }}</h2>
+
+      <form [formGroup]="form" (ngSubmit)="guardar()">
+        <div class="grupo">
+          <label for="localId">Local</label>
+          <select id="localId" formControlName="localId">
+            <option value="">Seleccione un local</option>
+            @for (l of locales(); track l.id) {
+            <option [value]="l.id">{{ l.marcaNombre }} - {{ l.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="grupo">
+          <label for="nombre">Nombre completo</label>
+          <input id="nombre" type="text" formControlName="nombre">
+        </div>
+
+        <div class="fila-2">
+          <div class="grupo">
+            <label for="telefono">Teléfono</label>
+            <input id="telefono" type="text" formControlName="telefono" maxlength="9">
+            @if (form.get('telefono')?.touched && form.get('telefono')?.errors?.['required']) {
+            <small class="error-msg">El teléfono es obligatorio</small>
+            }
+            @if (form.get('telefono')?.touched && form.get('telefono')?.errors?.['telefonoInvalido']) {
+            <small class="error-msg">Debe tener 9 dígitos y empezar con 9</small>
+            }
+          </div>
+          <div class="grupo">
+            <label for="vehiculo">Vehículo</label>
+            <select id="vehiculo" formControlName="vehiculo">
+              <option value="">Seleccione</option>
+              @for (v of vehiculos; track v) {
+              <option [value]="v">{{ v }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="grupo">
+          <label class="check">
+            <input type="checkbox" formControlName="activo"> Activo
+          </label>
+        </div>
+
+        @if (error()) { <div class="alerta error">{{ error() }}</div> }
+        @if (mensaje()) { <div class="alerta ok">{{ mensaje() }}</div> }
+
+        <div class="acciones-form">
+          <button type="submit" class="primario">{{ editandoId() ? 'Actualizar' : 'Guardar' }}</button>
+          @if (editandoId()) {
+          <button type="button" class="sec" (click)="cancelar()">Cancelar</button>
+          }
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Repartidores registrados ({{ repartidores().length }})</h2>
+      <div class="tabla-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Local</th>
+              <th>Nombre</th>
+              <th>Teléfono</th>
+              <th>Vehículo</th>
+              <th>Activo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of repartidores(); track r.id) {
+            <tr>
+              <td>{{ r.id }}</td>
+              <td>{{ r.localNombre }}</td>
+              <td>{{ r.nombre }}</td>
+              <td>{{ r.telefono }}</td>
+              <td>{{ r.vehiculo }}</td>
+              <td>
+                <span class="etiqueta" [class.si]="r.activo" [class.no]="!r.activo">{{ r.activo ? 'Sí' : 'No' }}</span>
+              </td>
+              <td>
+                <div class="acciones">
+                  <button type="button" class="sec" (click)="editar(r)">Editar</button>
+                  <button type="button" class="peligro" (click)="eliminar(r.id)">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

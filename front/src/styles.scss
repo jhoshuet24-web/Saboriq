@@ -1,0 +1,93 @@
+:root {
+  --fondo: #4a0e17;
+  --tarjeta: #fdfbf7;
+  --texto: #2d1316;
+  --texto-claro: #fdfbf7;
+  --suave: #7c5c61;
+  --borde: #e5d9c5;
+  --primario: #722f37;
+  --acento: #c5a059;
+  --acento-hover: #b08d4a;
+  --error: #b91c1c;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--texto-claro);
+  background-color: var(--fondo);
+  line-height: 1.5;
+}
+
+h1, h2, h3 {
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+/* Formularios básicos */
+input, select, textarea {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--borde);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+  color: var(--texto);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 2px rgba(197, 160, 89, 0.2);
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--suave);
+  margin-bottom: 0.4rem;
+}
+
+/* Botón principal y alertas */
+button.primario {
+  background: var(--acento);
+  color: var(--texto);
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button.primario:hover { background: var(--acento-hover); }
+button.primario:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.alerta {
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.check input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+.alerta.error { background: #fef2f2; color: var(--error); border-color: var(--error); }
+.alerta.ok { background: #f0fdf4; color: #15803d; border-color: #15803d; }
+small.error-msg { color: var(--error); font-size: 0.75rem; margin-top: 0.3rem; display: block; }

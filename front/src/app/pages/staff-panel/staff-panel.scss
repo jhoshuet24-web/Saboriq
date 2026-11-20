@@ -1,0 +1,122 @@
+.pagina { max-width: 1200px; margin: 0 auto; padding-bottom: 2rem; }
+
+.dos-columnas {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.columna {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.panel {
+  background: var(--tarjeta);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-top: 4px solid var(--acento);
+  border-radius: 14px;
+  padding: 1.4rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+
+  h2 {
+    color: var(--primario);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.datos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--borde);
+    color: var(--texto);
+    font-size: 0.92rem;
+    text-align: right;
+  }
+
+  li:last-child { border-bottom: none; }
+
+  li span:first-child {
+    color: var(--suave);
+    font-weight: 600;
+    text-align: left;
+  }
+}
+
+.tabla-scroll { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+
+  th {
+    text-align: left;
+    background: #f3ead8;
+    color: var(--primario);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 0.6rem 0.8rem;
+  }
+
+  td {
+    padding: 0.7rem 0.8rem;
+    border-bottom: 1px solid var(--borde);
+    color: var(--texto);
+    vertical-align: middle;
+  }
+
+  tbody tr:hover { background: #faf4e6; }
+}
+
+.etiqueta {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: #fef3c7;
+  color: #ae5b28;
+
+  &.si { background: #dcfce7; color: #149c48; }
+  &.no { background: #fee2e2; color: #7e0101; }
+}
+
+.acciones {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+
+  button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+
+  .sec { background: #fff; color: var(--primario); border-color: var(--primario); }
+  .sec:hover { background: var(--primario); color: #fff; }
+  .primario { background: var(--primario); color: #fff; }
+  .primario:hover { background: var(--fondo); }
+  .peligro { background: #fff; color: var(--error); border-color: #f0b4b4; }
+  .peligro:hover { background: var(--error); color: #fff; }
+}
+
+@media (max-width: 900px) {
+  .dos-columnas { grid-template-columns: 1fr; }
+}

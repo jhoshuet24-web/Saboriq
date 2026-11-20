@@ -1,0 +1,34 @@
+.pagina h1 {
+  color: var(--texto-claro);
+  margin-bottom: 1rem;
+}
+
+.dos-columnas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.panel {
+  background: var(--tarjeta);
+  color: var(--texto);
+  padding: 1.5rem;
+  border-radius: 6px;
+  border-top: 4px solid var(--acento);
+}
+
+.panel h2 {
+  color: var(--primario);
+  margin-bottom: 1rem;
+}
+
+.grupo {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .dos-columnas {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,16 @@
+<article class="producto-card">
+  <header>
+    <span class="marca">{{ producto.marcaNombre || 'SaborIQ' }}</span>
+    <span class="categoria">{{ producto.categoriaNombre }}</span>
+  </header>
+    <div class="contenido">
+    <h3>{{ producto.nombre }}</h3>
+    <p>{{ producto.descripcion }}</p>
+  </div>
+  <footer>
+    <span class="precio">S/ {{ producto.precio.toFixed(2) }}</span>
+    @if (puedeAgregar) {
+      <button class="btn-agregar" (click)="agregar.emit()">Agregar</button>
+    }
+  </footer>
+</article>

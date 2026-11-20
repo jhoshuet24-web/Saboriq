@@ -1,0 +1,109 @@
+<div class="pagina">
+  <div class="pagina-titulo">
+    <h1>Locales</h1>
+  </div>
+
+  <div class="dos-columnas">
+    <section class="panel">
+      <h2>{{ editandoId() ? 'Editar local' : 'Nuevo local' }}</h2>
+
+      <form [formGroup]="form" (ngSubmit)="guardar()">
+        <!-- Usa <div class="grupo"> para los inputs -->
+        <div class="grupo">
+          <label for="marcaId">Marca</label>
+          <select id="marcaId" formControlName="marcaId">
+            <option value="">Seleccione</option>
+            @for (m of marcas(); track m.id) {
+            <option [value]="m.id">{{ m.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="grupo">
+          <label for="nombre">Nombre del local</label>
+          <input id="nombre" type="text" formControlName="nombre">
+        </div>
+
+        <div class="fila-2">
+          <div class="grupo">
+            <label for="distrito">Distrito</label>
+            <input id="distrito" type="text" formControlName="distrito">
+          </div>
+          <div class="grupo">
+            <label for="ciudad">Ciudad</label>
+            <input id="ciudad" type="text" formControlName="ciudad">
+          </div>
+          <div class="grupo">
+            <label for="cobertura">Distritos de cobertura delivery (separados por coma)</label>
+            <input id="cobertura" type="text" formControlName="distritosCobertura" placeholder="Miraflores, San Isidro">
+          </div>
+        </div>
+        <div class="grupo">
+          <label for="direccion">Dirección</label>
+          <input id="direccion" type="text" formControlName="direccion">
+        </div>
+
+        <div class="fila-2">
+          <div class="grupo">
+            <label for="telefono">Teléfono</label>
+            <input id="telefono" type="text" formControlName="telefono">
+          </div>
+          <div class="grupo">
+            <label for="aforo">Aforo</label>
+            <input id="aforo" type="number" min="1" formControlName="aforo">
+          </div>
+        </div>
+
+        <div class="fila-2">
+          <div class="grupo">
+            <label for="pedidoMinimo">Pedido mínimo (S/)</label>
+            <input id="pedidoMinimo" type="number" min="0" step="0.01" formControlName="pedidoMinimo">
+          </div>
+          <div class="grupo">
+            <label for="costoEnvio">Costo de envío (S/)</label>
+            <input id="costoEnvio" type="number" min="0" step="0.01" formControlName="costoEnvio">
+          </div>
+        </div>
+
+        <div class="grupo">
+          <label><input id="activo" type="checkbox" formControlName="activo" style="width:auto"> Local activo</label>
+        </div>
+        <div class="acciones-form">
+          <button type="submit" class="primario">{{ editandoId() ? 'Actualizar' : 'Guardar' }}</button>
+          @if (editandoId()) {
+          <button type="button" class="sec" (click)="cancelar()">Cancelar</button>
+          }
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Locales registrados ({{ locales().length }})</h2>
+      <div class="tabla-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Marca</th>
+              <th>Local</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (l of locales(); track l.id) {
+            <tr>
+              <td>{{ l.marcaNombre }}</td>
+              <td>{{ l.nombre }}</td>
+              <td>
+                <div class="acciones">
+                  <button type="button" class="sec" (click)="editar(l)">Editar</button>
+                  <button type="button" class="peligro" (click)="eliminar(l.id)">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

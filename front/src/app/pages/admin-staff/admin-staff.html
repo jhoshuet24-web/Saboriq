@@ -1,0 +1,87 @@
+<div class="pagina">
+  <div class="pagina-titulo">
+    <h1>STAFF - Personal de locales</h1>
+  </div>
+
+  <div class="dos-columnas">
+    <section class="panel">
+      <h2>{{ editandoId() ? 'Editar personal' : 'Nuevo personal' }}</h2>
+      <form [formGroup]="form" (ngSubmit)="guardar()">
+        <div class="grupo">
+          <label for="localId">Local</label>
+          <select id="localId" formControlName="localId">
+            <option value="">Seleccione un local</option>
+            @for (l of locales(); track l.id) {
+              <option [value]="l.id">{{ l.marcaNombre }} - {{ l.nombre }}</option>
+            }
+          </select>
+          @if (form.get('localId')?.touched && form.get('localId')?.errors?.['required']) {
+            <small>Debes elegir un local</small>
+          }
+        </div>
+        <div class="grupo">
+          <label for="nombre">Nombre completo</label>
+          <input id="nombre" type="text" formControlName="nombre">
+          @if (form.get('nombre')?.touched && form.get('nombre')?.errors?.['required']) {
+            <small>El nombre es obligatorio</small>
+          }
+          @if (form.get('nombre')?.errors?.['maxlength']) {
+            <small>Máximo 20 caracteres</small>
+          }
+        </div>
+        @if (!editandoId()) {
+          <div class="grupo">
+            <label for="correo">Correo</label>
+            <input id="correo" type="text" formControlName="correo">
+            @if (form.get('correo')?.touched && form.get('correo')?.errors?.['required']) {
+              <small>El correo es obligatorio</small>
+            }
+            @if (form.get('correo')?.errors?.['email']) {
+              <small>Correo inválido</small>
+            }
+          </div>
+          <div class="grupo">
+            <label for="password">Contraseña</label>
+            <input id="password" type="password" formControlName="password">
+            @if (form.get('password')?.touched && form.get('password')?.errors?.['required']) {
+              <small>La contraseña es obligatoria</small>
+            }
+            @if (form.get('password')?.errors?.['minlength']) {
+              <small>Mínimo 8 caracteres</small>
+            }
+          </div>
+        }
+        @if (error()) { <div class="alerta error">{{ error() }}</div> }
+        @if (mensaje()) { <div class="alerta ok">{{ mensaje() }}</div> }
+
+        <div class="acciones-form">
+          <button type="submit">{{ editandoId() ? 'Actualizar' : 'Guardar' }}</button>
+          @if (editandoId()) {
+            <button type="button" class="sec" (click)="cancelar()">Cancelar</button>
+          }
+        </div>
+      </form>
+    </section>
+    <section class="panel">
+      <h2>Personal registrado ({{ personal().length }})</h2>
+      <div class="tabla-scroll">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Local</th><th>Acciones</th></tr>
+          </thead>
+          <tbody>
+            @for (s of personal(); track s.id) {
+              <tr><td>{{ s.id }}</td><td>{{ s.nombre }}</td><td>{{ s.correo }}</td><td>{{ s.localNombre ?? '-' }}</td><td>
+                  <div class="acciones">
+                    <button type="button" class="sec" (click)="editar(s)">Editar</button>
+                    <button type="button" class="peligro" (click)="eliminar(s.id)">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,95 @@
+<div class="pagina">
+  <div class="pagina-titulo">
+    <h1>Productos</h1>
+  </div>
+
+  <div class="dos-columnas">
+    <section class="panel">
+      <h2>{{ editandoId() ? 'Editar producto' : 'Nuevo producto' }}</h2>
+
+      <form [formGroup]="form" (ngSubmit)="guardar()">
+        <div class="grupo">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" type="text" formControlName="nombre">
+        </div>
+
+        <div class="grupo">
+          <label for="descripcion">Descripción</label>
+          <input id="descripcion" type="text" formControlName="descripcion">
+        </div>
+
+        <div class="fila-2">
+          <div class="grupo">
+            <label for="precio">Precio (S/)</label>
+            <input id="precio" type="number" step="0.01" formControlName="precio">
+          </div>
+          <div class="grupo">
+            <label for="categoriaId">Categoría</label>
+            <select id="categoriaId" formControlName="categoriaId">
+              <option value="">Seleccione</option>
+              @for (c of categorias(); track c.id) {
+                <option [value]="c.id">{{ c.nombre }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="grupo">
+          <label for="marcaId">Marca (opcional)</label>
+          <select id="marcaId" formControlName="marcaId">
+            <option value="">Sin marca</option>
+            @for (m of marcas(); track m.id) {
+              <option [value]="m.id">{{ m.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="grupo">
+          <label class="check">
+            <input type="checkbox" formControlName="disponible"> Disponible
+          </label>
+        </div>
+
+        @if (error()) { <div class="alerta error">{{ error() }}</div> }
+        @if (mensaje()) { <div class="alerta ok">{{ mensaje() }}</div> }
+
+        <div class="acciones-form">
+          <button type="submit" class="primario">{{ editandoId() ? 'Actualizar' : 'Guardar' }}</button>
+          @if (editandoId()) {
+            <button type="button" class="sec" (click)="cancelar()">Cancelar</button>
+          }
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Productos registrados ({{ productos().length }})</h2>
+      <div class="tabla-scroll">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Disponible</th><th>Acciones</th></tr>
+          </thead>
+          <tbody>
+            @for (p of productos(); track p.id) {
+              <tr>
+                <td>{{ p.id }}</td>
+                <td>{{ p.nombre }}</td>
+                <td>{{ p.categoriaNombre }}</td>
+                <td>S/ {{ p.precio.toFixed(2) }}</td>
+                <td>
+                  <span class="etiqueta" [class.si]="p.disponible" [class.no]="!p.disponible">{{ p.disponible ? 'Sí' : 'No' }}</span>
+                </td>
+                <td>
+                  <div class="acciones">
+                    <button type="button" class="sec" (click)="editar(p)">Editar</button>
+                    <button type="button" class="peligro" (click)="eliminar(p.id)">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

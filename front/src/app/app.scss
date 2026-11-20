@@ -1,0 +1,121 @@
+.header {
+  background-color: #33080f;
+  border-bottom: 2px solid var(--acento);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--acento);
+  text-decoration: none;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: var(--texto-claro);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+  opacity: 0.8;
+}
+
+.nav-menu a:hover, .nav-menu a.active {
+  opacity: 1;
+  color: var(--acento);
+  border-bottom-color: var(--acento);
+}
+
+.auth-actions { display: flex; gap: 1rem; }
+.auth-actions a, .auth-actions button {
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-outline { background: transparent; color: var(--texto-claro); border: 1px solid rgba(253, 251, 247, 0.3); }
+.btn-outline:hover { border-color: var(--acento); color: var(--acento); }
+.btn-solid { background: var(--acento); color: var(--texto); border: 1px solid var(--acento); }
+
+.main-layout {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.pagina-titulo h1 { color: var(--texto-claro); margin-bottom: 0.5rem; }
+.pagina-titulo p { color: var(--borde); margin-bottom: 2rem; }
+
+.menu-toggle {
+  display: none;
+  background: transparent;
+  color: var(--texto-claro);
+  border: 1px solid var(--acento);
+  border-radius: 4px;
+  font-size: 1.4rem;
+  padding: 0.2rem 0.7rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0.8rem 1rem;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  nav,
+  .auth-actions {
+    display: none;
+    width: 100%;
+  }
+
+  .header.abierto nav {
+    display: block;
+  }
+
+  .header.abierto .auth-actions {
+    display: flex;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .auth-actions {
+    margin: 1rem 0;
+  }
+
+  .main-layout {
+    padding: 0 1rem;
+  }
+}

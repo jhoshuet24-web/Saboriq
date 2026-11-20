@@ -1,0 +1,30 @@
+<div class="contenedor">
+  <h1>Pagar Garantía</h1>
+  <p class="subtitulo">Estás a un paso de confirmar tu reserva.</p>
+
+  @if (reserva(); as r) {
+    <div class="resumen">
+      <div><span>Local</span><strong>{{ r.marcaNombre }} - {{ r.localNombre }}</strong></div>
+      <div><span>Fecha y hora</span><strong>{{ r.fechaHora | date:'dd/MM/yyyy HH:mm' }}</strong></div>
+      <div><span>Personas</span><strong>{{ r.personas }}</strong></div>
+      <div class="total"><span>Garantía a pagar</span><strong>S/ {{ r.montoGarantia.toFixed(2) }}</strong></div>
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="pagar()">
+    <div class="grupo">
+      <label for="metodo">Método de pago</label>
+      <select id="metodo" formControlName="metodo">
+        <option value="YAPE">Yape</option>
+        <option value="PLIN">Plin</option>
+        <option value="TARJETA">Tarjeta de Crédito/Débito</option>
+        <option value="EFECTIVO">Efectivo (Pagar en local)</option>
+      </select>
+    </div>
+    @if (error()) { <div class="alerta error">{{ error() }}</div> }
+    @if (mensaje()) { <div class="alerta ok">{{ mensaje() }}</div> }
+    <button type="submit" [disabled]="cargando() || !reservaId()">
+      {{ cargando() ? 'Procesando pago...' : (reserva() ? 'Pagar S/ ' + reserva()!.montoGarantia.toFixed(2) : 'Pagar ahora') }}
+    </button>
+  </form>
+</div>

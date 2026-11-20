@@ -1,0 +1,143 @@
+.dos-columnas {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.panel {
+    background: var(--tarjeta);
+    color: var(--texto);
+    padding: 2rem;
+    border-radius: 6px;
+    border-top: 4px solid var(--acento);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1.5rem;
+}
+
+.panel h2 {
+    font-size: 1.25rem;
+    border-bottom: 1px solid var(--borde);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    color: var(--primario);
+}
+
+.tabla-scroll {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    color: var(--texto);
+}
+
+th {
+    text-align: left;
+    padding: 1rem;
+    background: #f4efe6;
+    color: var(--primario);
+    font-weight: 700;
+    border-bottom: 2px solid var(--borde);
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--borde);
+}
+
+tr:hover td {
+    background: #faf8f5;
+}
+
+.grupo {
+    margin-bottom: 1.5rem;
+}
+
+.fila-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.acciones-form {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.acciones {
+    display: flex;
+    gap: 5px;
+}
+
+.etiqueta {
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.etiqueta.si {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.etiqueta.no {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+button.sec {
+    background: white;
+    color: var(--primario);
+    border: 1px solid var(--borde);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button.sec:hover {
+    background: #f4efe6;
+}
+
+button.peligro {
+    background: #fef2f2;
+    color: var(--error);
+    border: 1px solid #fecaca;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button.peligro:hover {
+    background: #fee2e2;
+}
+
+@media (max-width: 900px) {
+    .dos-columnas {
+        grid-template-columns: 1fr;
+    }
+}
+
+.grupo label.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-transform: none;
+  font-size: 0.95rem;
+  color: var(--texto);
+  font-weight: normal;
+}
+
+.grupo label.check input[type="checkbox"] {
+  width: auto; 
+  margin: 0;
+  transform: scale(1.2);
+  cursor: pointer;
+}

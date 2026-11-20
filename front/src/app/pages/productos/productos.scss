@@ -1,0 +1,33 @@
+.filtros-panel {
+  display: flex;
+  gap: 1.5rem;
+  background: var(--tarjeta);
+  padding: 1.5rem;
+  border-radius: 6px;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--acento);
+  flex-wrap: wrap;
+}
+
+.filtro-item {
+  flex: 1;
+  min-width: 200px;
+}
+
+.grid-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .filtro-item {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-productos {
+    grid-template-columns: 1fr;
+  }
+}

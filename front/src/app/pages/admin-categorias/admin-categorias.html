@@ -1,0 +1,62 @@
+<div class="pagina">
+  <div class="pagina-titulo">
+    <h1>Categorías</h1>
+  </div>
+
+  <div class="dos-columnas">
+    <section class="panel">
+      <h2>{{ editandoId() ? 'Editar categoría' : 'Nueva categoría' }}</h2>
+
+      <form [formGroup]="form" (ngSubmit)="guardar()">
+        <div class="grupo">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" type="text" formControlName="nombre">
+          @if (form.get('nombre')?.touched && form.get('nombre')?.errors?.['required']) {
+            <small class="error-msg">El nombre es obligatorio</small>
+          }
+        </div>
+
+        <div class="grupo">
+          <label for="descripcion">Descripción</label>
+          <input id="descripcion" type="text" formControlName="descripcion">
+        </div>
+
+        @if (error()) { <div class="alerta error">{{ error() }}</div> }
+        @if (mensaje()) { <div class="alerta ok">{{ mensaje() }}</div> }
+
+        <div class="acciones-form">
+          <button type="submit" class="primario">{{ editandoId() ? 'Actualizar' : 'Guardar' }}</button>
+          @if (editandoId()) {
+            <button type="button" class="sec" (click)="cancelar()">Cancelar</button>
+          }
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Categorías registradas ({{ categorias().length }})</h2>
+      <div class="tabla-scroll">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Acciones</th></tr>
+          </thead>
+          <tbody>
+            @for (c of categorias(); track c.id) {
+              <tr>
+                <td>{{ c.id }}</td>
+                <td>{{ c.nombre }}</td>
+                <td>{{ c.descripcion }}</td>
+                <td>
+                  <div class="acciones">
+                    <button type="button" class="sec" (click)="editar(c)">Editar</button>
+                    <button type="button" class="peligro" (click)="eliminar(c.id)">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

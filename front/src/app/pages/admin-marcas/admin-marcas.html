@@ -1,0 +1,68 @@
+<div class="pagina">
+  <div class="pagina-titulo">
+    <h1>Marcas</h1>
+  </div>
+  <div class="dos-columnas">
+    <section class="panel">
+      <h2>{{ editandoId() ? 'Editar marca' : 'Nueva marca' }}</h2>
+      <form [formGroup]="form" (ngSubmit)="guardar()">
+        <div class="grupo">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" type="text" formControlName="nombre">
+          @if (form.get('nombre')?.touched && form.get('nombre')?.errors?.['required']) {
+            <small>El nombre es obligatorio</small>
+          }
+          @if (form.get('nombre')?.errors?.['maxlength']) {
+            <small>El nombre no puede superar los 20 caracteres</small>
+          }
+        </div>
+        <div class="grupo">
+          <label for="ruc">(opcional) RUC</label>
+          <input id="ruc" type="text" formControlName="ruc">
+          @if (form.get('ruc')?.errors?.['pattern']) {
+            <small>El RUC debe tener 11 dígitos</small>
+          }
+        </div>
+        <div class="grupo">
+          <label class="check">
+            <input type="checkbox" formControlName="activa"> Activa
+          </label>
+        </div>
+        @if (error()) { <div class="alerta error">{{ error() }}</div> }
+        @if (mensaje()) { <div class="alerta ok">{{ mensaje() }}</div> }
+        <div class="acciones-form">
+                    <button type="submit" class="primario">{{ editandoId() ? 'Actualizar' : 'Guardar' }}</button>
+          @if (editandoId()) {
+            <button type="button" class="sec" (click)="cancelar()">Cancelar</button>
+          }
+        </div>
+      </form>
+    </section>
+    <section class="panel">
+      <h2>Marcas registradas ({{ marcas().length }})</h2>
+      <div class="tabla-scroll">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Nombre</th><th>RUC</th><th>Activa</th><th>Acciones</th></tr>
+          </thead>
+          <tbody>
+            @for (m of marcas(); track m.id) {
+              <tr><td>{{ m.id }}</td><td>{{ m.nombre }}</td><td>{{ m.ruc }}</td><td>
+                  <span class="etiqueta" [class.si]="m.activa" [class.no]="!m.activa">
+                    {{ m.activa ? 'Sí' : 'No' }}
+                  </span>
+                </td>
+                <td>
+                  <div class="acciones">
+                    <button type="button" class="sec" (click)="editar(m)">Editar</button>
+                    <button type="button" class="peligro" (click)="eliminar(m.id)">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

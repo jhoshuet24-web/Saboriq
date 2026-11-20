@@ -1,0 +1,40 @@
+<section class="login-wrapper">
+  <form class="login-card" [formGroup]="form" (ngSubmit)="registrar()">
+    <header>
+      <h1>Crear Cuenta</h1>
+    </header>
+
+    <div class="form-control">
+      <label for="nombre">Nombre Completo</label>
+      <input id="nombre" type="text" formControlName="nombre" placeholder="Ej. Juan Pérez">
+      @if (form.get('nombre')?.touched && form.get('nombre')?.errors?.['required']) {
+        <small class="error-msg">El nombre es requerido.</small>
+      }
+    </div>
+
+    <div class="form-control">
+      <label for="correo">Correo Electrónico</label>
+      <input id="correo" type="email" formControlName="correo" placeholder="usuario@empresa.com">
+      @if (form.get('correo')?.touched && form.get('correo')?.errors?.['required']) {
+        <small class="error-msg">El correo es requerido.</small>
+      }
+    </div>
+
+    <div class="form-control">
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" formControlName="password" placeholder="••••••••">
+      @if (form.get('password')?.touched && form.get('password')?.errors?.['required']) {
+        <small class="error-msg">La contraseña es requerida.</small>
+      }
+    </div>
+
+    @if (error()) { <div class="alerta error">{{ error() }}</div> }
+    @if (mensaje()) { <div class="alerta ok">{{ mensaje() }}</div> }
+
+    <button type="submit" class="primario" [disabled]="cargando()">Registrarse</button>
+
+    <footer>
+      <a routerLink="/login">¿Ya tienes cuenta? Inicia sesión</a>
+    </footer>
+  </form>
+</section>

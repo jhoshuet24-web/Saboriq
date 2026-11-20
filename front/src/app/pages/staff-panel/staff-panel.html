@@ -1,0 +1,182 @@
+<div class="pagina">
+  <div class="pagina-titulo">
+    <h1>Mi local</h1>
+  </div>
+  @if (error()) { <div class="alerta error">{{ error() }}</div> }
+  @if (datos(); as d) {
+    <div class="dos-columnas">
+      <section class="panel">
+        <h2>{{ d.local.marcaNombre }} - {{ d.local.nombre }}</h2>
+
+        <ul class="datos">
+          <li><span>Dirección</span><span>{{ d.local.direccion }}</span></li>
+          <li><span>Distrito</span><span>{{ d.local.distrito }}</span></li>
+          <li><span>Ciudad</span><span>{{ d.local.ciudad }}</span></li>
+          <li><span>Teléfono</span><span>{{ d.local.telefono ?? '-' }}</span></li>
+          <li><span>Aforo</span><span>{{ d.local.aforo }} personas</span></li>
+          <li><span>Pedido mínimo</span><span>S/ {{ d.local.pedidoMinimo.toFixed(2) }}</span></li>
+          <li><span>Costo de envío</span><span>S/ {{ d.local.costoEnvio.toFixed(2) }}</span></li>
+          <li>
+            <span>Estado</span>
+            <span class="etiqueta" [class.si]="d.local.activo" [class.no]="!d.local.activo">
+              {{ d.local.activo ? 'Activo' : 'Inactivo' }}
+            </span>
+          </li>
+        </ul>
+      </section>
+
+      <div class="columna">
+        <section class="panel">
+          <h2>Mesas ({{ d.mesas.length }})</h2>
+          <div class="tabla-scroll">
+            <table>
+              <thead>
+                <tr><th>Mesa</th><th>Capacidad</th><th>Activa</th></tr>
+              </thead>
+              <tbody>
+                @for (m of d.mesas; track m.id) {
+                  <tr>
+                    <td>{{ m.numero }}</td>
+                    <td>{{ m.capacidad }} personas</td>
+                    <td>
+                      <span class="etiqueta" [class.si]="m.activa" [class.no]="!m.activa">
+                        {{ m.activa ? 'Sí' : 'No' }}
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Repartidores ({{ d.repartidores.length }})</h2>
+          <div class="tabla-scroll">
+            <table>
+              <thead>
+                <tr><th>Nombre</th><th>Teléfono</th><th>Vehículo</th><th>Activo</th></tr>
+              </thead>
+              <tbody>
+                @for (r of d.repartidores; track r.id) {
+                  <tr>
+                    <td>{{ r.nombre }}</td>
+                    <td>{{ r.telefono }}</td>
+                    <td>{{ r.vehiculo }}</td>
+                    <td>
+                      <span class="etiqueta" [class.si]="r.activo" [class.no]="!r.activo">
+                        {{ r.activo ? 'Sí' : 'No' }}
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Reservas del local ({{ reservas().length }})</h2>
+          @if (mensaje()) { <div class="alerta ok" style="margin-bottom: 10px;">{{ mensaje() }}</div> }
+          <div class="tabla-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fecha y Hora</th><th>Cliente</th><th>Personas</th><th>Estado</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (r of reservas(); track r.id) {
+                  <tr>
+                    <td>{{ r.fechaHora | date:'dd/MM/yyyy HH:mm' }}</td>
+                    <td>{{ r.clienteNombre }}</td>
+                    <td>{{ r.personas }}</td>
+                    <td>
+                      <span class="etiqueta" 
+                        [class.si]="r.estado === 'COMPLETADA'" 
+                        [class.no]="r.estado === 'CANCELADA' || r.estado === 'NO_SHOW'">
+                        {{ r.estado }}
+                      </span>
+                    </td>
+                    <td>
+                      @if (r.estado === 'CONFIRMADA') {
+                        <div class="acciones">
+                          <button type="button" class="sec" (click)="completar(r.id)">Completar</button>
+                          <button type="button" class="peligro" (click)="noShow(r.id)">No Show</button>
+                        </div>
+                      } @else {
+                        -
+                      }
+                    </td>
+                  </tr>
+                }
+                @if (reservas().length === 0) {
+                  <tr>
+                    <td colspan="5" style="text-align: center; color: #6b7280; padding: 20px;">
+                      No hay reservas registradas para este local.
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Pedidos de Delivery ({{ pedidos().length }})</h2>
+          <div class="tabla-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nº Pedido</th><th>Dirección</th><th>Total</th><th>Estado</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (p of pedidos(); track p.id) {
+                  <tr>
+                    <td>#{{ p.id }}</td>
+                    <td>
+                      {{ p.direccionEntrega }}<br>
+                      <small style="color: #6b7280;">{{ p.distritoEntrega }}</small>
+                    </td>
+                    <td>S/ {{ p.total.toFixed(2) }}</td>
+                    <td>
+                      <span class="etiqueta" 
+                        [class.si]="p.estado === 'ENTREGADO'" 
+                        [class.no]="p.estado === 'CANCELADO'">
+                        {{ p.estado }}
+                      </span>
+                    </td>
+                    <td>
+                      <div class="acciones">
+                        @if (p.estado === 'PENDIENTE') {
+                          <small style="color: #6b7280;">Esperando pago</small>
+                        }
+                        @if (p.estado === 'PAGADO') {
+                          <button type="button" class="sec" (click)="actualizarEstadoPedido(p.id, 'EN_PREPARACION')">Preparar</button>
+                        }
+                        @if (p.estado === 'EN_PREPARACION') {
+                          <button type="button" class="sec" (click)="actualizarEstadoPedido(p.id, 'EN_CAMINO')">Enviar</button>
+                        }
+                        @if (p.estado === 'EN_CAMINO') {
+                          <button type="button" class="primario" (click)="actualizarEstadoPedido(p.id, 'ENTREGADO')">Entregar</button>
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                }
+                @if (pedidos().length === 0) {
+                  <tr>
+                    <td colspan="5" style="text-align: center; color: #6b7280; padding: 20px;">
+                      No hay pedidos de delivery en este local.
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,53 @@
+.grid-locales {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.local-card {
+  background: var(--tarjeta);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  color: var(--texto);
+  border-top: 4px solid var(--acento);
+}
+
+.local-card header {
+  background: #f4efe6;
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+.local-card header .marca {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--acento);
+  text-transform: uppercase;
+}
+
+.local-card header h3 {
+  font-size: 1.25rem;
+  margin: 0.25rem 0 0 0;
+  color: var(--primario);
+}
+
+.local-card .contenido {
+  padding: 1.25rem;
+}
+
+.local-card .contenido p {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: var(--suave);
+}
+
+.local-card .contenido strong {
+  color: var(--texto);
+}
+
+@media (max-width: 480px) {
+  .grid-locales {
+    grid-template-columns: 1fr;
+  }
+}

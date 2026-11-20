@@ -1,0 +1,47 @@
+<header class="pagina-titulo" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+  <div>
+    <h1>Catálogo de Productos</h1>
+    <p>Selecciona un local y arma tu pedido.</p>
+  </div>
+  @if (pedidoService.carrito().length > 0) {
+    <button class="primario" style="width: auto;" (click)="irAlCarrito()">
+      Ver Carrito ({{ pedidoService.carrito().length }})
+    </button>
+  }
+</header>
+
+@if (mensaje()) { <div class="alerta ok">{{ mensaje() }}</div> }
+
+<section class="filtros-panel">
+  <div class="filtro-item">
+    <label for="local">Local de Delivery</label>
+    <select id="local" (change)="localSel.set($any($event.target).value)">
+      <option value="">-- Selecciona un local --</option>
+      @for (l of locales(); track l.id) {
+        <option [value]="l.id">{{ l.marcaNombre }} - {{ l.nombre }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filtro-item">
+    <label for="categoria">Categoría</label>
+    <select id="categoria" (change)="categoriaSel.set($any($event.target).value)">
+      <option value="todas">Todas</option>
+      @for (c of categorias(); track c.id) {
+        <option [value]="c.id">{{ c.nombre }}</option>
+      }
+    </select>
+  </div>
+</section>
+
+@if (error()) { <div class="alerta error">{{ error() }}</div> }
+
+<section class="grid-productos">
+  @for (p of visibles(); track p.id) {
+    <app-tarjeta-producto 
+      [producto]="p" 
+      [puedeAgregar]="localSel() !== '' && auth.isLoggedIn() && !auth.isAdmin() && !auth.isStaff()" 
+      (agregar)="agregarAlCarrito(p)">
+    </app-tarjeta-producto>
+  }
+</section>

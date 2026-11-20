@@ -1,0 +1,28 @@
+<section class="login-wrapper">
+  <form class="login-card" [formGroup]="form" (ngSubmit)="ingresar()">
+    <header>
+      <h1>Acceso al Sistema</h1>
+    </header>
+    <div class="form-control">
+      <label for="correo">Correo Electrónico</label>
+      <input id="correo" type="email" formControlName="correo" placeholder="usuario@empresa.com">
+      @if (form.get('correo')?.touched && form.get('correo')?.errors?.['required']) {
+        <small class="error-msg">El correo es requerido.</small>
+      }
+    </div>
+    <div class="form-control">
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" formControlName="password" placeholder="••••••••">
+      @if (form.get('password')?.touched && form.get('password')?.errors?.['required']) {
+        <small class="error-msg">La contraseña es requerida.</small>
+      }
+    </div>
+    @if (error()) { <div class="alerta error">{{ error() }}</div> }
+    <button type="submit" class="primario" [disabled]="cargando()">
+      {{ cargando() ? 'Validando' : 'Ingresar al Sistema' }}
+    </button>
+    <footer>
+      <a routerLink="/registro">¿No tienes cuenta? Solicita acceso</a>
+    </footer>
+  </form>
+</section>

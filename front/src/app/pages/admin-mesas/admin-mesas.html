@@ -1,0 +1,87 @@
+<div class="pagina">
+  <div class="pagina-titulo">
+    <h1>Mesas</h1>
+  </div>
+
+  <div class="dos-columnas">
+    <section class="panel">
+      <h2>{{ editandoId() ? 'Editar mesa' : 'Nueva mesa' }}</h2>
+
+      <form [formGroup]="form" (ngSubmit)="guardar()">
+        <div class="grupo">
+          <label for="localId">Local</label>
+          <select id="localId" formControlName="localId">
+            <option value="">Seleccione un local</option>
+            @for (l of locales(); track l.id) {
+            <option [value]="l.id">{{ l.marcaNombre }} - {{ l.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="fila-2">
+          <div class="grupo">
+            <label for="numero">Número</label>
+            <input id="numero" type="number" formControlName="numero">
+          </div>
+          <div class="grupo">
+            <label for="capacidad">Capacidad</label>
+            <input id="capacidad" type="number" formControlName="capacidad">
+          </div>
+        </div>
+
+        <div class="grupo">
+          <label class="check">
+            <input type="checkbox" formControlName="activa"> Activa
+          </label>
+        </div>
+
+        @if (error()) { <div class="alerta error">{{ error() }}</div> }
+        @if (mensaje()) { <div class="alerta ok">{{ mensaje() }}</div> }
+
+        <div class="acciones-form">
+          <button type="submit" class="primario">{{ editandoId() ? 'Actualizar' : 'Guardar' }}</button>
+          @if (editandoId()) {
+          <button type="button" class="sec" (click)="cancelar()">Cancelar</button>
+          }
+        </div>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Mesas registradas ({{ mesas().length }})</h2>
+      <div class="tabla-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Local</th>
+              <th>Mesa</th>
+              <th>Capacidad</th>
+              <th>Activa</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (m of mesas(); track m.id) {
+            <tr>
+              <td>{{ m.id }}</td>
+              <td>{{ m.localNombre }}</td>
+              <td>{{ m.numero }}</td>
+              <td>{{ m.capacidad }} personas</td>
+              <td>
+                <span class="etiqueta" [class.si]="m.activa" [class.no]="!m.activa">{{ m.activa ? 'Sí' : 'No' }}</span>
+              </td>
+              <td>
+                <div class="acciones">
+                  <button type="button" class="sec" (click)="editar(m)">Editar</button>
+                  <button type="button" class="peligro" (click)="eliminar(m.id)">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

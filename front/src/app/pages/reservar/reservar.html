@@ -1,0 +1,60 @@
+<div class="contenedor">
+  <h1>Hacer una reserva</h1>
+  <form [formGroup]="form" (ngSubmit)="reservar()">
+    <div class="grupo">
+      <label for="localId">Local</label>
+      <select id="localId" formControlName="localId">
+        <option value="">Seleccione un local</option>
+        @for (l of locales(); track l.id) {
+        <option [value]="l.id">{{ l.marcaNombre }} - {{ l.nombre }} (Aforo: {{ l.aforo }})</option>
+        }
+      </select>
+      @if (form.get('localId')?.touched && form.get('localId')?.errors?.['required']) {
+      <small>Debes elegir un local</small>
+      }
+    </div>
+
+    <div class="fila-2">
+      <div class="grupo">
+        <label for="fecha">Fecha</label>
+        <input id="fecha" type="date" formControlName="fecha">
+        @if (form.get('fecha')?.touched && form.get('fecha')?.errors?.['required']) {
+        <small>La fecha es obligatoria</small>
+        }
+        @if (form.get('fecha')?.errors?.['fechaPasada']) {
+        <small>La fecha no puede ser pasada</small>
+        }
+      </div>
+
+      <div class="grupo">
+        <label for="hora">Hora</label>
+        <input id="hora" type="time" formControlName="hora">
+        @if (form.get('hora')?.touched && form.get('hora')?.errors?.['required']) {
+        <small>La hora es obligatoria</small>
+        }
+      </div>
+    </div>
+
+    <div class="grupo">
+      <label for="personas">Número de personas</label>
+      <input id="personas" type="number" formControlName="personas">
+      @if (form.get('personas')?.touched && form.get('personas')?.errors?.['required']) {
+      <small>Obligatorio</small>
+      }
+      @if (form.get('personas')?.errors?.['min']) {
+      <small>Mínimo 1 persona</small>
+      }
+    </div>
+    @if (form.errors?.['anticipacionMinima'] && form.get('hora')?.touched) {
+    <small>La reserva debe hacerse con al menos 2 horas de anticipación</small>
+    }
+    @if (form.errors?.['anticipacionMaxima']) {
+    <small>No puedes reservar con más de 30 días de anticipación</small>
+    }
+    @if (error()) { <app-alerta tipo="error">{{ error() }}</app-alerta> }
+    @if (mensaje()) { <app-alerta tipo="ok">{{ mensaje() }}</app-alerta> }
+    <button type="submit" [disabled]="cargando()">
+      {{ cargando() ? 'Procesando...' : 'Reservar' }}
+    </button>
+  </form>
+</div>
