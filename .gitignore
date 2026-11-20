@@ -1,0 +1,13 @@
+# IntelliJ
+.idea/
+*.iml
+*.iws
+
+# Node (Frontend)
+node_modules/
+dist/
+.env
+
+# Java (Backend)
+target/
+.mvn/
