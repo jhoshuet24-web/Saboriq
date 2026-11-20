@@ -8,7 +8,10 @@
       <label for="nombre">Nombre Completo</label>
       <input id="nombre" type="text" formControlName="nombre" placeholder="Ej. Juan Pérez">
       @if (form.get('nombre')?.touched && form.get('nombre')?.errors?.['required']) {
-        <small class="error-msg">El nombre es requerido.</small>
+      <small class="error-msg">El nombre es requerido.</small>
+      }
+      @if (form.get('nombre')?.touched && form.get('nombre')?.errors?.['maxlength']) {
+      <small class="error-msg">El nombre no puede superar los 100 caracteres.</small>
       }
     </div>
 
@@ -16,7 +19,10 @@
       <label for="correo">Correo Electrónico</label>
       <input id="correo" type="email" formControlName="correo" placeholder="usuario@empresa.com">
       @if (form.get('correo')?.touched && form.get('correo')?.errors?.['required']) {
-        <small class="error-msg">El correo es requerido.</small>
+      <small class="error-msg">El correo es requerido.</small>
+      }
+      @if (form.get('correo')?.touched && form.get('correo')?.errors?.['email']) {
+      <small class="error-msg">El correo no tiene un formato válido.</small>
       }
     </div>
 
@@ -24,7 +30,10 @@
       <label for="password">Contraseña</label>
       <input id="password" type="password" formControlName="password" placeholder="••••••••">
       @if (form.get('password')?.touched && form.get('password')?.errors?.['required']) {
-        <small class="error-msg">La contraseña es requerida.</small>
+      <small class="error-msg">La contraseña es requerida.</small>
+      }
+      @if (form.get('password')?.touched && form.get('password')?.errors?.['minlength']) {
+      <small class="error-msg">La contraseña debe tener al menos 8 caracteres.</small>
       }
     </div>
 
